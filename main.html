@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image Frame</title>
+<title>Chat Box</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet"> <!-- Include Fredoka One font -->
 <style>
   body {
     background-color: black; /* Entire background black */
@@ -13,23 +15,80 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* Make sure the frame is centered vertically */
+    font-family: Arial, sans-serif; /* Use a standard font */
   }
   .frame {
-    border: 2px solid white; /* White frame around the image */
-    padding: 10px;
+    border: 2px solid white; /* White frame */
+    padding: 20px;
+    border-radius: 20px; /* Rounded corners */
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    text-align: center;
   }
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
+  .text-label {
+    color: white;
+    font-family: 'Fredoka One', sans-serif; /* Use Fredoka One font */
+    font-size: 24px;
+    text-shadow: 
+      -1px -1px 0 #7700ff,  
+      1px -1px 0 #7700ff,
+      -1px 1px 0 #7700ff,
+      1px 1px 0 #7700ff; /* Add dark purple visible outline around the text */
+  }
+  .text-input, .send-button {
+    width: calc(100% - 22px); /* Adjusted width to match the text input */
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px; /* Rounded corners */
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  .text-input {
+    margin-top: 20px; /* Increased margin to move the text input lower */
+  }
+  .send-button {
+    background-color: #7700ff; /* Purple color */
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .send-button:hover {
+    background-color: #4b0082; /* Darker purple on hover */
   }
 </style>
 </head>
 <body>
 
 <div class="frame">
-  <img src="https://cdn.discordapp.com/attachments/1193633871460307016/1235959431305363617/image.png?ex=6636446b&is=6634f2eb&hm=446b8b4275477a3f4b32ba2341e9ef0302d275f2dee4b4a794ba615b1a6c520c&" alt="Your Image">
+  <div class="text-label">Sakrael facts :3</div>
+  <input type="text" class="text-input" id="messageInput" placeholder="Type your message...">
+  <button class="send-button" onclick="sendMessage()">Send</button>
 </div>
+
+<script>
+  function sendMessage() {
+    var message = document.getElementById("messageInput").value;
+    if (message.trim() !== "") {
+      fetch('https://discord.com/api/webhooks/1235978252799967365/571IMe9dJkQ5W5iCu82GnWADVOnF1EJwUfQJmhVpIbzB7-dNleuXWHOrrFU8lcbBAMPW', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: message })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log('Message sent successfully');
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+    }
+  }
+</script>
 
 </body>
 </html>
